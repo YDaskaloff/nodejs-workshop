@@ -1,9 +1,19 @@
-import React from 'react';
-import {Text, TouchableOpacity, FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Text, TouchableOpacity, ScrollView} from 'react-native';
 import UserCard from '../../components/UserCard/UserCard';
 import styles from './styles';
-import {users} from './users';
+
 const HomeScreen = ({navigation}) => {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    fetch('http://localhost:8000/users')
+      .then(response => response.json())
+      .then(data => setUsers(data.data.users))
+      .catch(err => {
+        console.log(err.message);
+      });
+  });
+
   const goToCreateUser = () => {
     navigation.navigate('Users');
   };
@@ -23,19 +33,14 @@ const HomeScreen = ({navigation}) => {
   };
 
   return (
-    <>
+    <ScrollView>
       <TouchableOpacity
         onPress={goToCreateUser}
         style={styles.createUserButton}>
         <Text style={styles.createButtonText}>Create user</Text>
       </TouchableOpacity>
-      <FlatList
-        data={users}
-        keyExtractor={item => item.id}
-        renderItem={renderItem}
-        scrollEnabled
-      />
-    </>
+      {users.map(user => renderItem({item: user}))}
+    </ScrollView>
   );
 };
 export default HomeScreen;

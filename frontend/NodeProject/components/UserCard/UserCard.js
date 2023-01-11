@@ -5,7 +5,6 @@ import styles from './styles';
 
 const UserCard = ({editUserNavigationHandler, user}) => {
   const {name, username, email, address, phone} = user;
-  const {city, street} = address;
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={editUserNavigationHandler}>
@@ -16,9 +15,7 @@ const UserCard = ({editUserNavigationHandler, user}) => {
         <Text>Username: {username}</Text>
         <Text>Email: {email}</Text>
         <Text>Phone: {phone}</Text>
-        <Text>
-          Address: {street}, {city}
-        </Text>
+        <Text>Address: {address}</Text>
       </View>
     </View>
   );

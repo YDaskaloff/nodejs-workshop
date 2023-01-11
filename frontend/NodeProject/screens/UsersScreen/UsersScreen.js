@@ -4,7 +4,7 @@ import TextInputWithLabel from '../../components/TextInputWithLabel/TextInputWit
 
 import styles from './styles';
 
-const UsersScreen = ({route}) => {
+const UsersScreen = ({route, navigation}) => {
   // Here we should get the id from the navigation and make request to get the current user
   const user = route?.params?.user || null;
   const buttonText = user ? 'Edit user' : 'Create user';
@@ -13,9 +13,24 @@ const UsersScreen = ({route}) => {
   const [userName, setUsername] = useState(user?.username ?? '');
   const [email, setEmail] = useState(user?.email ?? '');
   const [phone, setPhone] = useState(user?.phone ?? '');
-  const [address, setAddress] = useState(
-    user?.address ? `${user.address.street}, ${user.address.city}` : '',
-  );
+  const [address, setAddress] = useState(user?.address ?? '');
+
+  const createUser = async () => {
+    await fetch('http://localhost:8000/users', {
+      method: 'POST',
+      body: JSON.stringify({
+        name,
+        username: userName,
+        email,
+        phone,
+        address,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    navigation.navigate('Home');
+  };
 
   return (
     <View style={styles.container}>
@@ -32,7 +47,7 @@ const UsersScreen = ({route}) => {
         value={address}
         onChangeText={setAddress}
       />
-      <TouchableOpacity style={styles.editButton}>
+      <TouchableOpacity style={styles.editButton} onPress={createUser}>
         <Text style={styles.editButtonText}>{buttonText}</Text>
       </TouchableOpacity>
     </View>
