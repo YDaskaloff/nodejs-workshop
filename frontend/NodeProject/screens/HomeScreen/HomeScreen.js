@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, ScrollView} from 'react-native';
+import {Text, TouchableOpacity, FlatList} from 'react-native';
 import UserCard from '../../components/UserCard/UserCard';
 import styles from './styles';
 
@@ -12,10 +12,10 @@ const HomeScreen = ({navigation}) => {
       .catch(err => {
         console.log(err.message);
       });
-  });
+  }, []);
 
   const goToCreateUser = () => {
-    navigation.navigate('Users');
+    navigation.replace('Users');
   };
 
   const goToEditUser = user => {
@@ -28,19 +28,28 @@ const HomeScreen = ({navigation}) => {
       <UserCard
         user={item}
         editUserNavigationHandler={() => goToEditUser(item)}
+        key={item.id}
       />
     );
   };
 
   return (
-    <ScrollView>
-      <TouchableOpacity
-        onPress={goToCreateUser}
-        style={styles.createUserButton}>
-        <Text style={styles.createButtonText}>Create user</Text>
-      </TouchableOpacity>
-      {users.map(user => renderItem({item: user}))}
-    </ScrollView>
+    <>
+      <FlatList
+        data={users}
+        keyExtractor={item => item._id}
+        renderItem={renderItem}
+        ListHeaderComponent={
+          <TouchableOpacity
+            onPress={goToCreateUser}
+            style={styles.createUserButton}>
+            <Text style={styles.createButtonText}>Create user</Text>
+          </TouchableOpacity>
+        }
+        scrollEnabled
+        showsVerticalScrollIndicator={false}
+      />
+    </>
   );
 };
 export default HomeScreen;

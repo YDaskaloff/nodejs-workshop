@@ -12,7 +12,7 @@ const UsersScreen = ({route, navigation}) => {
   const [name, setName] = useState(user?.name ?? '');
   const [userName, setUsername] = useState(user?.username ?? '');
   const [email, setEmail] = useState(user?.email ?? '');
-  const [phone, setPhone] = useState(user?.phone ?? '');
+  const [phone, setPhone] = useState(user?.phone.toString() ?? '');
   const [address, setAddress] = useState(user?.address ?? '');
 
   const createUser = async () => {
