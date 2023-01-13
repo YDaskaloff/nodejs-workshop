@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import TextInputWithLabel from '../../components/TextInputWithLabel/TextInputWithLabel';
 
@@ -6,14 +6,36 @@ import styles from './styles';
 
 const UsersScreen = ({route, navigation}) => {
   // Here we should get the id from the navigation and make request to get the current user
-  const user = route?.params?.user || null;
-  const buttonText = user ? 'Edit user' : 'Create user';
+  const id = route?.params?.id;
+  const buttonText = route?.params ? 'Edit user' : 'Create user';
 
-  const [name, setName] = useState(user?.name ?? '');
-  const [userName, setUsername] = useState(user?.username ?? '');
-  const [email, setEmail] = useState(user?.email ?? '');
-  const [phone, setPhone] = useState(user?.phone.toString() ?? '');
-  const [address, setAddress] = useState(user?.address ?? '');
+  const [user, setUser] = useState();
+  const [name, setName] = useState('');
+  const [userName, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
+
+  useEffect(() => {
+    if (id) {
+      fetch(`http://localhost:8000/users/${id}`)
+        .then(response => response.json())
+        .then(data => setUser(data.data.user))
+        .catch(err => {
+          console.log(err.message);
+        });
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setUsername(user.username);
+      setEmail(user.email);
+      setPhone(user.phone.toString());
+      setAddress(user.address);
+    }
+  }, [user]);
 
   const createUser = async () => {
     await fetch('http://localhost:8000/users', {

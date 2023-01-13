@@ -6,7 +6,9 @@ import styles from './styles';
 const HomeScreen = ({navigation}) => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:8000/users')
+    fetch('http://localhost:8000/users', {
+      method: 'GET',
+    })
       .then(response => response.json())
       .then(data => setUsers(data.data.users))
       .catch(err => {
@@ -19,8 +21,7 @@ const HomeScreen = ({navigation}) => {
   };
 
   const goToEditUser = user => {
-    // here we should put id to make request for different users
-    navigation.navigate('Users', {user});
+    navigation.navigate('Users', {id: user._id});
   };
 
   const renderItem = ({item}) => {
