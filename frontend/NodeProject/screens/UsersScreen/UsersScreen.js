@@ -5,9 +5,8 @@ import TextInputWithLabel from '../../components/TextInputWithLabel/TextInputWit
 import styles from './styles';
 
 const UsersScreen = ({route, navigation}) => {
-  // Here we should get the id from the navigation and make request to get the current user
   const id = route?.params?.id;
-  const buttonText = route?.params ? 'Edit user' : 'Create user';
+  const buttonText = id ? 'Edit user' : 'Create user';
 
   const [user, setUser] = useState();
   const [name, setName] = useState('');
