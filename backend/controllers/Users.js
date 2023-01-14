@@ -13,22 +13,7 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.createUser = async (req, res) => {
-    const user = await User.create(req.body);
-    res.status(201).json({
-        status: 'success',
-        data: {
-            user,
-        }
-    });
 };
 
 exports.getUser = async (req, res) => {
-    const {id} = req.params;
-    const user = await User.findById(id);
-    res.status(200).json({
-        status: 'success',
-        data: {
-            user,
-        }
-    });
 };
