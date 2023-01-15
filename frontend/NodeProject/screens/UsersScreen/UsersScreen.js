@@ -50,7 +50,32 @@ const UsersScreen = ({route, navigation}) => {
         'Content-Type': 'application/json',
       },
     });
-    navigation.navigate('Home');
+    navigation.replace('Home');
+  };
+
+  const editUser = async () => {
+    await fetch(`http://localhost:8000/users/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        name,
+        username: userName,
+        email,
+        phone,
+        address,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    navigation.replace('Home');
+  };
+
+  const buttonController = () => {
+    if (id) {
+      editUser();
+    } else {
+      createUser();
+    }
   };
 
   return (
@@ -68,7 +93,7 @@ const UsersScreen = ({route, navigation}) => {
         value={address}
         onChangeText={setAddress}
       />
-      <TouchableOpacity style={styles.editButton} onPress={createUser}>
+      <TouchableOpacity style={styles.editButton} onPress={buttonController}>
         <Text style={styles.editButtonText}>{buttonText}</Text>
       </TouchableOpacity>
     </View>

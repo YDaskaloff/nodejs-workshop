@@ -21,7 +21,7 @@ const HomeScreen = ({navigation}) => {
   };
 
   const goToEditUser = user => {
-    navigation.navigate('Users', {id: user._id});
+    navigation.replace('Users', {id: user._id});
   };
 
   const renderItem = ({item}) => {
