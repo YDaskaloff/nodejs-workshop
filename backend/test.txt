@@ -1,0 +1,2 @@
+This is new text for testing
+This is second line

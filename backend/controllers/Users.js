@@ -9,11 +9,38 @@ exports.getAllUsers = async (req, res) => {
               users,
             }
         });
+    } else{
+        res.status(404).json({
+            message: 'Users not found',
+        })
     }
 };
 
 exports.createUser = async (req, res) => {
+    const user = await User.create(req.body);
+    if(user){
+        res.status(201).json({
+            status: 'success',
+            data: {
+                user,
+            }
+        });
+    }
 };
 
 exports.getUser = async (req, res) => {
+    const {id} = req.params;
+    const user = await User.findById(id);
+    if(user){
+        res.status(200).json({
+            status: 'success',
+            data: {
+                user,
+            }
+        })
+    } else{
+        res.status(404).json({
+            message: 'User not found',
+        })
+    }
 };
