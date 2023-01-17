@@ -44,3 +44,21 @@ exports.getUser = async (req, res) => {
         })
     }
 };
+
+exports.editUser = async (req, res) => {
+    const {id} = req.params;
+    const updatedFields = req.body;
+    const user = await User.findByIdAndUpdate(id, updatedFields);
+    if(user){
+        res.status(200).json({
+            status: 'success',
+            data: {
+                user,
+            }
+        })
+    } else{
+        res.status(404).json({
+            message: 'Failer to update user',
+        })
+    }
+};
