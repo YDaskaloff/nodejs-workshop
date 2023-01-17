@@ -67,7 +67,7 @@ const UsersScreen = ({route, navigation}) => {
         'Content-Type': 'application/json',
       },
     });
-    navigation.replace('Home');
+    navigation.goBack();
   };
 
   const buttonController = () => {

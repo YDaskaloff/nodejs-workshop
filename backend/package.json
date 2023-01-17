@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/server"
+    "start": "nodemon ./bin/server"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -14,5 +14,8 @@
     "mongoose": "^6.8.0",
     "morgan": "~1.9.1",
     "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }

@@ -5,7 +5,8 @@ import styles from './styles';
 
 const HomeScreen = ({navigation}) => {
   const [users, setUsers] = useState([]);
-  useEffect(() => {
+
+  const onFocus = () => {
     fetch('http://localhost:8000/users', {
       method: 'GET',
     })
@@ -14,14 +15,22 @@ const HomeScreen = ({navigation}) => {
       .catch(err => {
         console.log(err.message);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    navigation.addListener('focus', onFocus);
+
+    return () => {
+      navigation.removeListener('focus', onFocus);
+    };
+  }, [navigation]);
 
   const goToCreateUser = () => {
-    navigation.replace('Users');
+    navigation.navigate('Users');
   };
 
   const goToEditUser = user => {
-    navigation.replace('Users', {id: user._id});
+    navigation.navigate('Users', {id: user._id});
   };
 
   const renderItem = ({item}) => {
